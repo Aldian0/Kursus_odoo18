@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_bukti_pendaftaran">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="currency" t-value="doc.currency_id or env.company.currency_id"/>
+                        <t t-set="invoice_paid" t-value="doc.invoice_id and doc.invoice_id.payment_state == 'paid'"/>
+                            <t t-set="no_pendaftaran" t-value="doc.name or 'DFTR/25/12/0001'"/>
+
+                <div class="page" style="font-family: Arial, sans-serif; font-size: 11px; color: #333; line-height: 1.2; padding: 10px;">
+                    
+                    <div style="height: 47%; border: 1px solid #ccc; padding: 15px; position: relative; margin-bottom: 5px; box-sizing: border-box;">
+                        
+                        <div style="width: 100%; margin-bottom: 10px; display: block; overflow: hidden;">
+                            <div style="float: left; width: 60%;">
+                                <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" 
+                                     style="max-height: 45px; float: left; margin-right: 10px;" alt="Logo"/>
+                                <div style="float: left;">
+                                    <h2 style="margin: 0; font-size: 16px; font-weight: bold; color: #000;">PT KAMITO</h2>
+                                    <p style="margin: 0; font-size: 9px; color: #666;">Bukti Transaksi Resmi</p>
+                                </div>
+                            </div>
+
+                            <div style="float: right; width: 40%; text-align: right;">
+                                <p style="margin: 0; font-size: 9px; color: #000;">
+                                    Jl. PLN Raya No. 95, Cinere, Depok<br/>
+                                    Telp: (021) 1234567
+                                </p>
+                            </div>
+                        </div>
+
+                        <div style="clear: both; border-top: 1px solid #eee; margin-top: 5px; padding-top: 10px;">
+                            <h3 style="text-align: center; margin: 0; font-size: 14px; font-weight: bold; text-decoration: underline;">
+                                BUKTI PENDAFTARAN KURSUS
+                            </h3>
+                            <p style="text-align: center; margin: 5px 0 15px 0; font-size: 12px;">
+                                <strong>No:</strong> <span t-esc="no_pendaftaran"/>
+                            </p>
+                        </div>
+
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td style="width: 20%; font-weight: bold; padding: 4px 0;">Nama Peserta</td>
+                                <td style="width: 35%; padding: 4px 0;">: <span t-esc="doc.pendaftar_id.name"/></td>
+                                <td style="width: 15%; font-weight: bold; padding: 4px 0;">Kursus</td>
+                                <td style="width: 30%; padding: 4px 0;">: <span t-esc="doc.kursus_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; padding: 4px 0;">Jenis Kelamin</td>
+                                <td style="padding: 4px 0;">: 
+                                    <t t-if="doc.jenis_kelamin == 'l'">Laki-laki</t>
+                                    <t t-elif="doc.jenis_kelamin == 'p'">Perempuan</t>
+                                    <t t-else="">-</t>
+                                </td>
+                                <td style="font-weight: bold; padding: 4px 0;">Harga</td>
+                                <td style="padding: 4px 0;">: 
+                                    Rp <span t-esc="doc.harga_kursus" t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; padding: 4px 0;">No. HP</td>
+                                <td style="padding: 4px 0;">: <span t-esc="doc.no_hp or '-'"/></td>
+                                <td style="font-weight: bold; padding: 4px 0;">Status</td>
+                                <td style="padding: 4px 0;">: 
+                                    <span t-attf-style="color: #{'green' if invoice_paid else 'red'}; font-weight: bold;">
+                                        <t t-if="invoice_paid">LUNAS</t>
+                                        <t t-else="">BELUM LUNAS</t>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; padding: 4px 0;">Tanggal</td>
+                                <td style="padding: 4px 0;">: <span t-field="doc.tanggal" t-options='{"widget": "date"}'/></td>
+                                <td style="font-weight: bold; padding: 4px 0;">No. Tagihan</td>
+                                <td style="padding: 4px 0;">: <span t-esc="doc.invoice_id.name or '-'"/></td>
+                            </tr>
+                        </table>
+
+                        <div style="position: absolute; bottom: 10px; right: 15px; font-size: 8px; color: #bbb; font-style: italic;">
+                            * Simpan bukti ini sebagai tanda masuk kursus - SALINAN PESERTA
+                        </div>
+                    </div>
+
+                    <div style="height: 4%; text-align: center; position: relative; margin: 5px 0;">
+                        <div style="border-top: 1px dashed #999; width: 100%; position: absolute; top: 50%;"></div>
+                        <span style="background: #fff; padding: 0 15px; position: relative; font-size: 10px; font-weight: bold; color: #999;">
+                             ✂ POTONG DI SINI ✂ 
+                        </span>
+                    </div>
+
+                    <div style="height: 47%; border: 1px solid #ccc; padding: 15px; position: relative; box-sizing: border-box;">
+                        
+                        <div style="width: 100%; margin-bottom: 10px; display: block; overflow: hidden;">
+                            <div style="float: left; width: 60%;">
+                                <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" 
+                                     style="max-height: 45px; float: left; margin-right: 10px;" alt="Logo"/>
+                                <div style="float: left;">
+                                    <h2 style="margin: 0; font-size: 16px; font-weight: bold; color: #000;">PT KAMITO</h2>
+                                    <p style="margin: 0; font-size: 9px; color: #666;">Bukti Transaksi Resmi</p>
+                                </div>
+                            </div>
+
+                            <div style="float: right; width: 40%; text-align: right;">
+                                <p style="margin: 0; font-size: 9px; color: #000;">
+                                    Jl. PLN Raya No. 95, Cinere, Depok<br/>
+                                    Telp: (021) 1234567
+                                </p>
+                            </div>
+                        </div>
+
+                        <div style="clear: both; border-top: 1px solid #eee; margin-top: 5px; padding-top: 10px;">
+                            <h3 style="text-align: center; margin: 0; font-size: 14px; font-weight: bold; text-decoration: underline;">
+                                BUKTI PENDAFTARAN KURSUS
+                            </h3>
+                            <p style="text-align: center; margin: 5px 0 15px 0; font-size: 12px;">
+                                <strong>No:</strong> <span t-esc="no_pendaftaran"/>
+                            </p>
+                        </div>
+
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td style="width: 20%; font-weight: bold; padding: 4px 0;">Nama Peserta</td>
+                                <td style="width: 35%; padding: 4px 0;">: <span t-esc="doc.pendaftar_id.name"/></td>
+                                <td style="width: 15%; font-weight: bold; padding: 4px 0;">Kursus</td>
+                                <td style="width: 30%; padding: 4px 0;">: <span t-esc="doc.kursus_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; padding: 4px 0;">Jenis Kelamin</td>
+                                <td style="padding: 4px 0;">: 
+                                    <t t-if="doc.jenis_kelamin == 'l'">Laki-laki</t>
+                                    <t t-elif="doc.jenis_kelamin == 'p'">Perempuan</t>
+                                    <t t-else="">-</t>
+                                </td>
+                                <td style="font-weight: bold; padding: 4px 0;">Harga</td>
+                                <td style="padding: 4px 0;">: 
+                                    Rp <span t-esc="doc.harga_kursus" t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; padding: 4px 0;">No. HP</td>
+                                <td style="padding: 4px 0;">: <span t-esc="doc.no_hp or '-'"/></td>
+                                <td style="font-weight: bold; padding: 4px 0;">Status</td>
+                                <td style="padding: 4px 0;">: 
+                                    <span t-attf-style="color: #{'green' if invoice_paid else 'red'}; font-weight: bold;">
+                                        <t t-if="invoice_paid">LUNAS</t>
+                                        <t t-else="">BELUM LUNAS</t>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; padding: 4px 0;">Tanggal</td>
+                                <td style="padding: 4px 0;">: <span t-field="doc.tanggal" t-options='{"widget": "date"}'/></td>
+                                <td style="font-weight: bold; padding: 4px 0;">No. Tagihan</td>
+                                <td style="padding: 4px 0;">: <span t-esc="doc.invoice_id.name or '-'"/></td>
+                            </tr>
+                        </table>
+
+                        <div style="position: absolute; bottom: 10px; right: 15px; font-size: 8px; color: #bbb;">SALINAN ARSIP</div>
+                    </div>
+
+                </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

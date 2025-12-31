@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <data>
+            <menuitem id="ds_base_kursus_menu_root" name="Kursus" sequence="0" web_icon="ds_base_kursus,static/description/book.png"/>
+            <menuitem id="training_menu_categ" name="Training" parent="ds_base_kursus_menu_root" sequence="10"/>
+            <menuitem id="Pengaturan_menu_categ" name="Pengaturan" parent="ds_base_kursus_menu_root" sequence="20"/>
+            <menuitem id="wilayah_menu_categ" name="Wilayah" parent="ds_base_kursus_menu_root" sequence="30"/>
+            <menuitem id="pendaftaran_menu_categ" name="Pendaftaran" parent="ds_base_kursus_menu_root" sequence="40"/>
+        </data>
+
+</odoo>

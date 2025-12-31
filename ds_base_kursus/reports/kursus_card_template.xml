@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <!-- FORMAT PAPERFORMAT -->
+        <record id="paperformat_custom" model="report.paperformat">
+            <field name="name">Custom</field>
+            <field name="default" eval="False"/>
+            <field name="format">custom</field>
+            <field name="orientation">Portrait</field>
+            <field name="page_height">50</field>
+            <field name="page_width">90</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <template id="report_kartu_peserta">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.basic_layout">
+                        <div class="page" style="position: relative; width: 120mm; height: 67mm; background-image: url('/kursus/static/src/img/card-bg-resized.png'); background-size: cover; background-position: center; border: none; overflow: hidden; font-family: 'Arial', sans-serif; background-color: white; margin: 0; padding: 0;">
+                            
+                            <div style="padding: 15px 20px;">
+                                <div class="row align-items-center" style="border-bottom: 2px solid #81b7d6; padding-bottom: 8px; margin-bottom: 10px;">
+                                    <div class="col-8">
+                                        <h4 style="color: #2c3e50; font-weight: bold; margin: 0; letter-spacing: 1.5px;">KARTU PESERTA</h4>
+                                        <span t-field="doc.no_peserta" style="color: #19063bff; font-size: 14px; font-weight: bold; letter-spacing: 1px;"/>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 45px; max-width: 100%;"/>
+                                    </div>
+                                </div>
+
+                                <div class="row g-0">
+                                    <div class="col-8">
+                                        <table style="width: 100%; border-collapse: collapse; table-layout: fixed; letter-spacing: 0.3px;">
+                                            <tr style="vertical-align: top;">
+                                                <td style="font-size: 11px; width: 55px; padding: 3px 0;"><strong>Nama</strong></td>
+                                                <td style="font-size: 11px; width: 10px; padding: 3px 0;">:</td>
+                                                <td style="font-size: 11px; padding: 3px 0; font-weight: bold; text-transform: uppercase;">
+                                                    <span t-field="doc.name"/>
+                                                </td>
+                                            </tr>
+                                            <tr style="vertical-align: top;">
+                                                <td style="font-size: 11px; padding: 3px 0;"><strong>Alamat</strong></td>
+                                                <td style="font-size: 11px; padding: 3px 0;">:</td>
+                                                <td style="font-size: 10.5px; padding: 3px 0; line-height: 1.2; word-wrap: break-word;">
+                                                    <span t-field="doc.kecamatan_id.name"/>
+                                                    <t t-if="doc.kota_id">, <span t-field="doc.kota_id.name"/></t>
+                                                    <t t-if="doc.propinsi_id">, <span t-field="doc.propinsi_id.name"/></t>
+                                                </td>
+                                            </tr>
+                                            <tr style="vertical-align: top;">
+                                                <td style="font-size: 11px; padding: 3px 0;"><strong>No. HP</strong></td>
+                                                <td style="font-size: 11px; padding: 3px 0;">:</td>
+                                                <td style="font-size: 11px; padding: 3px 0;">
+                                                    <span t-field="doc.mobile"/>
+                                                </td>
+                                            </tr>
+                                            <tr style="vertical-align: top;">
+                                                <td style="font-size: 11px; padding: 3px 0;"><strong>Gender</strong></td>
+                                                <td style="font-size: 11px; padding: 3px 0;">:</td>
+                                                <td style="font-size: 11px; padding: 3px 0;">
+                                                    <span t-field="doc.jenis_kelamin"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="col-4 text-end">
+                                        <t t-if="doc.image_1920">
+                                            <img t-att-src="image_data_uri(doc.image_1920)" style="height: 38mm; width: 28mm; object-fit: cover; border: 2px solid #ffffffff; border-radius: 4px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);"/>
+                                        </t>
+                                        <t t-else="">
+                                            <div style="height: 38mm; width: 28mm; border: 1px dashed #ccc; background: #fefefe; display: flex; align-items: center; justify-content: center; float: right; border-radius: 4px;">
+                                                <span style="font-size: 10px; color: #aaa;">FOTO</span>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+
+                                <div style="position: absolute; bottom: 3mm; left: 20px; right: 20px; border-top: 1px solid #eee; padding-top: 3px;">
+                                    <div class="text-center">
+                                        <p style="margin: 0; font-size: 8.5px; color: #7f8c8d; font-style: italic; line-height: 1; letter-spacing: 0.2px;">
+                                            "Kartu ini wajib dibawa saat mengikuti kegiatan kursus."
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="page-break-after: always;"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

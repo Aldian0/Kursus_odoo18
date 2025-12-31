@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+   <data>
+       <!-- cdn.pendaftaran list view -->
+       <record id="cdn_pendaftaran_view_list" model="ir.ui.view">
+           <field name="name">cdn.pendaftaran.view.list</field>
+           <field name="model">cdn.pendaftaran</field>
+           <field name="arch" type="xml">
+               <list>
+                   <!-- Add your fields here -->
+                   <field name="name"/>
+                   <field name="tanggal"/>
+                   <field name="pendaftar_id"/>
+                   <field name="jenis_kelamin"/>
+                   <field name="no_hp"/>
+                   <field name="kursus_id"/>
+                   <field name="harga_kursus"/>
+                   <field name="invoice_id"/>
+                   <field name="status_pembayaran" widget="badge"
+                        decoration-info="status_pembayaran == 'draft'"
+                        decoration-danger="status_pembayaran == 'not_paid'"
+                        decoration-warning="status_pembayaran in ('partial', 'in_payment')"
+                        decoration-success="status_pembayaran in ('paid', 'reversed')"/>
+                   <field name="state" string="Status Pendaftaran" widget="badge"
+                        decoration-info="state == 'draft'" decoration-success="state == 'confirm'"/>
+               </list>
+           </field>
+       </record>
+
+
+       <!-- cdn.pendaftaran form view -->
+       <record id="cdn_pendaftaran_view_form" model="ir.ui.view">
+           <field name="name">cdn.pendaftaran.view.form</field>
+           <field name="model">cdn.pendaftaran</field>
+           <field name="arch" type="xml">
+               <form string="">
+                     <header>
+                        <button name="action_print_bukti_pendaftaran" string="Cetak Pendaftaran" type="object" class="btn-primary" icon="fa-print" modifiers="{'invisible': [('state', 'not in', ['confirm','done'])]}"/>
+                        <button name="action_confirm" string="Confirm" type="object" class="oe_highlight" invisible="not id or state =='confirm'"/>
+                        <button name="action_reset" string="Reset" type="object" invisible="not id or state =='draft'" groups="ds_base_kursus.group_training_manager"/>
+                        <button name="action_create_invoice" string="Buat Tagihan" type="object" invisible="state !='confirm' or invoice_id"/>
+                        <button name="action_reset_invoice" string="Reset Tagihan" class="btn-danger" confirm="Anda yakin ingin mereset tagihan ini?" type="object" invisible="not invoice_id" groups="ds_base_kursus.group_training_manager"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
+                    </header>
+                    <sheet>
+                    <field name="status_pembayaran" invisible="1"/>
+                        <widget name="web_ribbon" bg_color="bg-info" text="Draft" invisible="status_pembayaran != 'draft'" />
+                        <widget name="web_ribbon" bg_color="bg-danger" text="Belum Lunas" invisible="status_pembayaran != 'not_paid'" />
+                        <widget name="web_ribbon" bg_color="bg-warning" text="Terbayar Sebagian" invisible="status_pembayaran not in ('partial', 'in_payment')" />
+                        <widget name="web_ribbon" bg_color="bg-success" text="Lunas" invisible="status_pembayaran not in ('paid', 'reversed')" />
+                            <div class="oe_title">
+                                <label for="name" class="oe_edit_only" string="No Pendaftaran"/>
+                                <h1><field name="name" readonly="1"/></h1>
+                            </div>
+                       <group>
+                            <group>
+                           <!-- Add your fields here -->
+                            <field name="tanggal"/>
+                            <field name="pendaftar_id" readonly="state == 'confirm'"/>
+                            <field name="jenis_kelamin"/>
+                            <field name="no_hp"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="kursus_id" readonly="state == 'confirm'"/>
+                            <field name="harga_kursus" string="Harga Kursus" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="invoice_id" invisible="not invoice_id" readonly="1"/>
+                           </group>
+                       </group>
+                   </sheet>
+               </form>
+           </field>
+       </record>
+
+
+        <record id="set_status_confirm" model="ir.actions.server">
+            <field name="name">Set Status Confirm</field>
+            <field name="model_id" ref="model_cdn_pendaftaran"/>
+            <field name="binding_model_id" ref="model_cdn_pendaftaran"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(4, ref('ds_base_kursus.group_training_manager'))]"/>
+            <field name="code">                
+                records.action_confirm()
+            </field>
+        </record>
+
+        <record id="set_status_reset_override" model="ir.actions.server">
+            <field name="name">Set Status Reset Override</field>
+            <field name="model_id" ref="model_cdn_pendaftaran"/>
+            <field name="binding_model_id" ref="model_cdn_pendaftaran"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(4, ref('ds_base_kursus.group_training_manager'))]"/>
+            <field name="code">                
+                records.action_reset()
+            </field>
+        </record>
+
+        <!-- cdn.pendaftaran action window -->
+        <record id="cdn_pendaftaran_action" model="ir.actions.act_window">
+            <field name="name">Pendaftaran Siswa</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cdn.pendaftaran</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                
+                </p>
+            </field>
+        </record>
+
+
+            <!-- This Menu Item must have a parent and an action -->
+            <menuitem id="pendaftaran_menu_act" name="Pendaftaran Siswa" parent="pendaftaran_menu_categ" action="cdn_pendaftaran_action" sequence="10"/>
+        
+        </data>
+
+</odoo>
+
+
+
+        <!-- <record id="action_report_kartu_pendaftaran" model="ir.actions.report">
+            <field name="name">Kartu Pendaftaran</field>
+            <field name="model">cdn.pendaftaran</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ds_base_kursus.report_kartu_pendaftaran</field>
+            <field name="print_report_name">'Kartu Pendaftaran - %s' % (object.name)</field>
+            <field name="binding_type">report</field>
+            <field name="binding_model_id" ref="model_cdn_pendaftaran"/>
+        </record> -->

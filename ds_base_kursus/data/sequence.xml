@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <data>
+            <!-- Sequence Nomor Peserta Kursus -->
+        <record id="seq_cdn_peserta" model="ir.sequence">
+            <field name="name">Nomor Peserta Kursus</field>
+            <field name="code">cdn.peserta</field>
+            <field name="prefix">A/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_cdn_pendaftaran" model="ir.sequence">
+            <field name="name">Pendaftaran Siswa</field>
+            <field name="code">cdn.pendaftaran</field>
+            <field name="prefix">PDFT/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_cdn_peserta_kursus" model="ir.sequence">
+            <field name="name">Cetak Kartu Peserta</field>
+            <field name="code">cdn.peserta.kursus</field>
+            <field name="prefix">KP/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="company_id" eval="False"/>
+        </record>
+            
+        </data>
+
+</odoo>

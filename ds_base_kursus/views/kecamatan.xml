@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <data>
+        
+            <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Kecamatan ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+            <!-- cdn.kecamatan tree view -->
+            <record id="cdn_kecamatan_view_list" model="ir.ui.view">
+                <field name="name">cdn.kecamatan.view.list</field>
+                <field name="model">cdn.kecamatan</field>
+                <field name="arch" type="xml">
+                    <list>
+                        <!-- Add your fields here -->
+                        <field name="name"/>
+                        <field name="kode"/>
+                        <field name="deskripsi"/>
+                        <field name="kota_id"/>
+                    </list>
+                </field>
+            </record>
+        
+        <!-- cdn.kecamatan form view -->
+        <record id="cdn_kecamatan_view_form" model="ir.ui.view">
+            <field name="name">cdn.kecamatan.view.form</field>
+            <field name="model">cdn.kecamatan</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <!-- Add your fields here -->
+                            <field name="name"/>
+                            <field name="kode"/>
+                            <field name="deskripsi"/>
+                        </group>
+                        
+                         <notebook>
+                            <page string="Data Desa">
+                                <field name="desa_ids">
+                                    <list editable="bottom" readonly="1">
+                                        <field name="name"/>
+                                        <field name="kode"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- cdn.kecamatan search view -->
+        <record id="cdn_kecamatan_view_search" model="ir.ui.view">
+            <field name="name">cdn.kecamatan.view.search</field>
+            <field name="model">cdn.kecamatan</field>
+            <field name="arch" type="xml">
+                <search string="Search Description">
+                    <!-- Add your fields here -->
+                    
+                </search>
+            </field>
+        </record>
+
+        <!-- cdn.kecamatan action window -->
+        <record id="cdn_kecamatan_action" model="ir.actions.act_window">
+            <field name="name">Data kecamatan</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cdn.kecamatan</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                    <!-- More details about what a user can do with this object will be OK --> 
+                
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="kecamatan_menu_act" name="Data Kecamatan" parent="wilayah_menu_categ" action="cdn_kecamatan_action" sequence="30"/>
+
+        </data>
+
+</odoo>

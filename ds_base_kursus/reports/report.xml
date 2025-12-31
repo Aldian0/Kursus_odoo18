@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <data>
+            <!-- REPORT ACTION KARTU PESERTA -->
+            <record id="action_report_kartu_peserta" model="ir.actions.report">
+                <field name="name">Cetak Kartu Peserta</field>
+                <field name="model">cdn.peserta</field>
+                <field name="report_type">qweb-pdf</field>
+                <field name="report_name">ds_base_kursus.report_kartu_peserta</field>
+                <field name="report_file">ds_base_kursus.report_kartu_peserta</field>
+                <field name="print_report_name">'Kartu Peserta - %s' % (object.name)</field>
+                <field name="binding_model_id" ref="model_cdn_peserta"/>
+                <field name="binding_type">report</field>
+                <field name="paperformat_id" ref="paperformat_custom"/>
+            </record>
+
+            <!-- REPORT ACTION DAFTAR HADIR SISWA -->
+            <record id="action_report_daftar_hadir" model="ir.actions.report">
+                <field name="name">Daftar Hadir Siswa</field>
+                <field name="model">cdn.daftar.hadir</field>
+                <field name="report_type">qweb-pdf</field>
+                <field name="report_name">ds_base_kursus.report_daftar_hadir</field>
+                <field name="report_file">ds_base_kursus.report_daftar_hadir</field>
+                <field name="print_report_name">
+                    'Daftar Hadir - %s' % (object.tanggal or '')
+                </field>
+            </record>
+
+            <!-- REPORT ACTION BUKTI PENDAFTARAN -->
+            <record id="action_report_bukti_pendaftaran" model="ir.actions.report">
+                <field name="name">Bukti Pendaftaran</field>
+                <field name="model">cdn.pendaftaran</field>
+                <field name="report_type">qweb-pdf</field>
+                <field name="report_name">ds_base_kursus.report_bukti_pendaftaran</field>
+                <field name="report_file">ds_base_kursus.report_bukti_pendaftaran</field>
+                <field name="print_report_name">
+                    'Bukti Pendaftaran - %s' % (object.name or '')
+                </field>
+                <field name="binding_model_id" ref="model_cdn_pendaftaran"/>
+                <field name="binding_type">report</field>
+            </record>
+
+        </data>
+</odoo>

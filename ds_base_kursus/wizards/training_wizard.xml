@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <data>
+            <!-- cdn.wizard form view -->
+            <record id="cdn_wizard_view_form" model="ir.ui.view">
+                <field name="name">cdn.wizard.view.form</field>
+                <field name="model">cdn.wizard</field>
+                <field name="arch" type="xml">
+                    <form string="">
+                        <sheet>
+                            <group>
+                                <!-- Add your fields here -->
+                                <field name="session_id"/>
+                                <field name="peserta_ids"/>
+                            </group>
+                            <footer>
+                                <button name="action_add_peserta" string="Tambah Peserta" type="object" class="btn-primary" 
+                                        confirm="Apakah Anda yakin akan menambah Peserta pada Sesi ini ?" />
+                                <button string="Batal" class="btn-secondary" special="cancel"/>
+                            </footer>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <!-- cdn.wizard form multi view -->
+            <record id="cdn_wizard_view_form_multi" model="ir.ui.view">
+                <field name="name">cdn.wizard.view.form.multi</field>
+                <field name="model">cdn.wizard</field>
+                <field name="arch" type="xml">
+                    <form string="Tambah Banyk Peserta">
+                        <sheet>
+                            <group>
+                                <!-- Add your fields here -->
+
+                                <field name="session_ids" widget="many2many_tags" options="{'no_create_edit' : True}"/>
+                                <field name="peserta_ids"/>
+                            </group>
+                            <footer>
+                                <button name="action_add_peserta" string="Tambah Banyak Peserta" type="object" class="btn-primary" 
+                                        confirm="Apakah Anda yakin akan menambah Peserta pada semua Sesi yang dipilih ini ?" />
+                                <button string="Batal" class="btn-secondary" special="cancel"/>
+                            </footer>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <!-- cdn.wizard action window -->
+            <record id="cdn_wizard_action" model="ir.actions.act_window">
+                <field name="name">Tambah Peserta</field>
+                <field name="res_model">cdn.wizard</field>
+                <field name="view_mode">form</field>
+                <field name="view_id" ref="cdn_wizard_view_form"/>
+                <field name="target">new</field>
+                <field name="binding_model_id" ref="model_cdn_training_session"/>
+                <field name="binding_view_types">form</field>
+            </record>
+
+            <!-- cdn.wizard action multi window -->
+            <record id="cdn_wizard_action_multi" model="ir.actions.act_window">
+                <field name="name">Tambah Banyak Peserta</field>
+                <field name="res_model">cdn.wizard</field>
+                <field name="view_mode">form</field>
+                <field name="view_id" ref="cdn_wizard_view_form_multi"/>
+                <field name="target">new</field>
+                <field name="binding_model_id" ref="model_cdn_training_session"/>
+                <field name="binding_view_types">list</field>
+            </record>
+            
+        </data>
+
+</odoo>

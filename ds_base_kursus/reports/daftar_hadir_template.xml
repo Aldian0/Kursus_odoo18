@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_daftar_hadir">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-family: Arial, sans-serif; font-size: 12px;">
+                        
+                        <!-- Judul Utama -->
+                        <div style="text-align: center; margin-bottom: 30px;">
+                            <h2 style="margin: 0; font-size: 18px; font-weight: bold; color: #2A6EBB;">
+                                LAPORAN DAFTAR HADIR
+                            </h2>
+                        </div>
+
+                        <!-- Informasi Kursus dan Tanggal -->
+                        <table style="width: 100%; margin-bottom: 25px; border-collapse: collapse;">
+                            <tr>
+                                <!-- Kolom Kiri -->
+                                <td style="width: 60%; vertical-align: top;">
+                                    <table style="width: 100%; border-collapse: collapse;">
+                                        <!-- Baris Kursus -->
+                                        <tr>
+                                            <td style="width: 20%; font-weight: bold; padding: 4px 0;">Kursus</td>
+                                            <td style="width: 5%; padding: 4px 0;">:</td>
+                                            <td style="width: 75%; padding: 4px 0;">
+                                                <span t-esc="docs[0].kursus_id.name"/>
+                                            </td>
+                                        </tr>
+                                        <!-- Baris Sesi -->
+                                        <tr>
+                                            <td style="width: 20%; font-weight: bold; padding: 4px 0;">Sesi</td>
+                                            <td style="width: 5%; padding: 4px 0;">:</td>
+                                            <td style="width: 75%; padding: 4px 0;">
+                                                <span t-esc="docs[0].session_id.name"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                
+                                <!-- Kolom Kanan -->
+                                <td style="width: 60%; vertical-align: top;">
+                                    <table style="width: 100%; border-collapse: collapse;">
+                                        <!-- Baris Tanggal -->
+                                        <tr>
+                                            <td style="width: 20%; font-weight: bold; padding: 4px 0; text-align: right;">Tanggal</td>
+                                            <td style="width: 5%; padding: 4px 0; text-align: center;">:</td>
+                                            <td style="width: 75%; padding: 4px 0;">
+                                                <t t-if="docs[0].tanggal">
+                                                    <span t-esc="docs[0].tanggal.strftime('%d/%m/%Y')"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <span>-</span>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                        <!-- Baris Total Hadir -->
+                                        <tr>
+                                            <td style="width: 20%; font-weight: bold; padding: 4px 0; text-align: right;">Total Hadir</td>
+                                            <td style="width: 5%; padding: 4px 0; text-align: center;">:</td>
+                                            <td style="width: 75%; padding: 4px 0;">
+                                                <t t-set="total_hadir" t-value="0"/>
+                                                <t t-foreach="docs[0].daftar_hadir_ids" t-as="line">
+                                                    <t t-if="line.is_hadir == 'hadir'">
+                                                        <t t-set="total_hadir" t-value="total_hadir + 1"/>
+                                                    </t>
+                                                </t>
+                                                <span t-esc="total_hadir"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Tabel Daftar Hadir dengan Kolom Status -->
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                            <thead>
+                                <tr style="background-color: #f2f2f2; font-weight: bold;">
+                                    <th style="border: 1px solid #000; padding: 8px; text-align: center; width: 5%;">NO</th>
+                                    <th style="border: 1px solid #000; padding: 8px; text-align: left; width: 20%;">NO. PESERTA</th>
+                                    <th style="border: 1px solid #000; padding: 8px; text-align: left; width: 35%;">NAMA PESERTA</th>
+                                    <th style="border: 1px solid #000; padding: 8px; text-align: left; width: 15%;">JENIS KELAMIN</th>
+                                    <th style="border: 1px solid #000; padding: 8px; text-align: center; width: 15%;">NO. HP</th>
+                                    <th style="border: 1px solid #000; padding: 8px; text-align: center; width: 10%;">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="counter" t-value="1"/>
+                                <t t-foreach="docs[0].daftar_hadir_ids" t-as="line">
+                                    <tr>
+                                        <td style="border: 1px solid #000; padding: 8px; text-align: center;">
+                                            <span t-esc="counter"/>
+                                            <t t-set="counter" t-value="counter + 1"/>
+                                        </td>
+                                        <td style="border: 1px solid #000; padding: 8px;">
+                                            <t t-if="line.peserta_id and line.peserta_id.no_peserta">
+                                                <span t-esc="line.peserta_id.no_peserta"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="line.peserta_id.name if line.peserta_id else '-'"/>
+                                            </t>
+                                        </td>
+                                        <td style="border: 1px solid #000; padding: 8px;">
+                                            <span t-esc="line.peserta_id.name if line.peserta_id else '-'"/>
+                                        </td>
+                                        <td style="border: 1px solid #000; padding: 8px;">
+                                            <t t-if="line.jenis_kelamin == 'laki-laki'">
+                                                Laki-laki
+                                            </t>
+                                            <t t-elif="line.jenis_kelamin == 'perempuan'">
+                                                Perempuan
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="line.jenis_kelamin or '-'"/>
+                                            </t>
+                                        </td>
+                                        <td style="border: 1px solid #000; padding: 8px; text-align: center;">
+                                            <span t-esc="line.no_hp or '-'"/>
+                                        </td>
+                                        <td style="border: 1px solid #000; padding: 8px; text-align: center;">
+                                            <t t-if="line.is_hadir == 'hadir'">
+                                                <span style="color: green; font-weight: bold;">Hadir</span>
+                                            </t>
+                                            <t t-elif="line.is_hadir == 'izin'">
+                                                <span style="color: orange; font-weight: bold;">Izin</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span style="color: red; font-weight: bold;">Tidak Hadir</span>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <!-- Ringkasan Status -->
+                        <div style="margin-top: 30px; padding: 15px; background-color: #f9f9f9; border: 1px solid #ddd;">
+                            <div style="font-weight: bold; margin-bottom: 10px; font-size: 14px;">RINGKASAN STATUS</div>
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 25%; padding: 5px;">
+                                        <span style="color: green; font-weight: bold;">●</span> Hadir: 
+                                        <t t-set="count_hadir" t-value="0"/>
+                                        <t t-foreach="docs[0].daftar_hadir_ids" t-as="line">
+                                            <t t-if="line.is_hadir == 'hadir'">
+                                                <t t-set="count_hadir" t-value="count_hadir + 1"/>
+                                            </t>
+                                        </t>
+                                        <span t-esc="count_hadir"/>
+                                    </td>
+                                    <td style="width: 25%; padding: 5px;">
+                                        <span style="color: orange; font-weight: bold;">●</span> Izin: 
+                                        <t t-set="count_izin" t-value="0"/>
+                                        <t t-foreach="docs[0].daftar_hadir_ids" t-as="line">
+                                            <t t-if="line.is_hadir == 'izin'">
+                                                <t t-set="count_izin" t-value="count_izin + 1"/>
+                                            </t>
+                                        </t>
+                                        <span t-esc="count_izin"/>
+                                    </td>
+                                    <td style="width: 25%; padding: 5px;">
+                                        <span style="color: red; font-weight: bold;">●</span> Tidak Hadir: 
+                                        <t t-set="count_tidak_hadir" t-value="0"/>
+                                        <t t-foreach="docs[0].daftar_hadir_ids" t-as="line">
+                                            <t t-if="line.is_hadir == 'tidak_hadir'">
+                                                <t t-set="count_tidak_hadir" t-value="count_tidak_hadir + 1"/>
+                                            </t>
+                                        </t>
+                                        <span t-esc="count_tidak_hadir"/>
+                                    </td>
+                                    <td style="width: 25%; padding: 5px; font-weight: bold;">
+                                        Total Peserta: <span t-esc="len(docs[0].daftar_hadir_ids)"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Footer -->
+                        <div style="margin-top: 50px; text-align: center; font-size: 10px; color: #666;">
+                            <div>
+                                <span>Halaman 1 / 1</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>
