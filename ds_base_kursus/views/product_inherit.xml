@@ -14,7 +14,7 @@
                    <field name="is_kursus_product" />
                </field>
            </field>
-       </record>
+        </record>
 
         </data>
 
